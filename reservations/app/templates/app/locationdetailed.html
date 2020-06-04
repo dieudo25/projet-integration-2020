@@ -1,4 +1,6 @@
-{% extends "app/base.html" %}
+<!-- location detailed html template-->
+{% extends "base.html" %}
+{% block title %}{{location.designation}}{% endblock title %}
 
 <!-- {% block header %} <h2>  </h2> {% endblock header %} -->
 
@@ -14,6 +16,10 @@
             <h5>Code Postal : {{location.locality.postal_code}} {{location.locality.locality}}</h5>
             <h5>Téléphone : {{location.phone}}</h5>
             <h5> Site internet : {{ location.website|urlize }}</h5>
+            {% if user.is_staff %}
+            <a href="{% url 'UpdateLocation' location.pk %}" class="btn btn-primary"> Modifier location </a>
+            <a href="{% url 'DeleteLocation' location.pk %}" class="btn btn-link"> Supprimer location </a>
+            {% endif %}
             <a href="{% url 'LocationListView' %}" class="btn btn-secondary"> Retour aux emplacements</a>
         </div>
     </div>
@@ -26,9 +32,6 @@
         <th>Sièges</th>
         <th>Sièges libres</th>
         <th> </th>
-        <th> {% if request.user.is_staff %}
-    <a href="{% url 'CreateRepresentation' location.pk %}"> Ajouter <i class="fas fa-plus-circle"></i></a> <!-- A mettre dans la nav bar-->
-      {% endif %}</th>
     </tr>
     </thead>
     <tbody>
@@ -38,9 +41,11 @@
         <td>{{rep.time}}</td>
         <td>{{rep.total_seats}}</td>
         <td>{{rep.available_seats}}</td>
-        <td><a href="{% url 'UpdateRepresentation' rep.pk %}"><i class="fas fa-edit"></i></a></td>
-        <td><a href="{% url 'DeleteRepresentation' rep.pk %}"><i class="fas fa-trash"></i></a></td>
-
+        <td>
+                <a href="{% url 'representation_detail' rep.pk %}">
+                    <button type="button" class="btn btn-success">Réserver</button>
+                </a>
+        </td>
     </tr>
     {% endfor %}
 
@@ -50,5 +55,3 @@
 </section>
 
 {% endblock content %}
-
-

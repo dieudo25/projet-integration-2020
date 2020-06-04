@@ -17,9 +17,8 @@ from app.models.profile import UserProfile
 from app.models.reservation import Reservation
 
 
-@cache_page(24 * 60 * 60)
 def signup(request):
-    """"""  # TODO: Comments missing !
+    """function for signup/register functionality"""
 
     if request.method == 'POST':
         user_form = UserSignupForm(request.POST)
